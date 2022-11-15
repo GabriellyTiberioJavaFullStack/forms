@@ -1,0 +1,73 @@
+<!--
+  utilizados [formControl] quando o FormControl está fora de um FormGroup
+
+  Quando o formControl estiver dentro de um FormGroup, utilize formControlName
+
+  Para se referenciar a um FormGroup que está dentro de outro FormGroup, utilize
+  formGroupName
+ -->
+<div class="flex">
+  <mat-card class="r-form">
+    <mat-card-title>Cadastro</mat-card-title>
+    <mat-card-content>
+      <form action="" (ngSubmit)="enviar()" [formGroup]="dadosForm">
+        <mat-form-field appearance="fill">
+          <mat-label>Nome</mat-label>
+          <input type="text" matInput formControlName="nome">
+          <mat-error>
+            <!-- Fora do FormGroup -->
+            <!-- <span *ngIf="nome.getError('required')">Este campo é obrigatório!</span> -->
+            <!-- Dentro do FormGroup -->
+            <!--
+              o método get() dos FormGroups serve para retornar algum elemento
+              que está dentro do grupo (FormControl, FormGroup ou FormArray)
+              basta apenas colocar o nome do campo
+             -->
+            <span *ngIf="dadosForm.get('nome')?.getError('required')">Este campo é obrigatório!</span>
+            <span *ngIf="dadosForm.get('nome')?.getError('minlength')">Este campo deve possuir 5 caracteres no mínimo</span>
+          </mat-error>
+        </mat-form-field>
+        <mat-form-field appearance="fill">
+          <mat-label>E-mail</mat-label>
+          <input type="email" matInput formControlName="email">
+        </mat-form-field>
+        <mat-form-field appearance="fill">
+          <mat-label>Senha</mat-label>
+          <input type="password" matInput formControlName="senha">
+        </mat-form-field>
+
+        <div formArrayName="telefones">
+          <mat-form-field appearance="fill" *ngFor="let tel of tels.controls; let idx = index">
+            <mat-label>Telefone</mat-label>
+            <input type="tel" matInput [formControlName]="idx">
+          </mat-form-field>
+          <button mat-mini-fab color="primary" type="button" (click)="adicionarCampoDeTelefone()">
+            <mat-icon>add</mat-icon>
+          </button>
+        </div>
+
+        <h3>Endereço</h3>
+        <mat-divider></mat-divider>
+        <section formGroupName="endereco">
+          <mat-form-field appearance="fill">
+            <mat-label>Rua</mat-label>
+            <input type="text" matInput formControlName="rua">
+          </mat-form-field>
+          <mat-form-field appearance="fill">
+            <mat-label>Número</mat-label>
+            <input type="number" matInput formControlName="numero">
+          </mat-form-field>
+          <mat-form-field appearance="fill">
+            <mat-label>CEP</mat-label>
+            <input type="text" matInput formControlName="cep">
+          </mat-form-field>
+          <mat-form-field appearance="fill">
+            <mat-label>Complemento</mat-label>
+            <input type="text" matInput formControlName="complemento">
+          </mat-form-field>
+        </section>
+        <button type="submit" mat-raised-button color="accent">Cadastrar</button>
+      </form>
+    </mat-card-content>
+  </mat-card>
+</div>

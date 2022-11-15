@@ -1,0 +1,15 @@
+.flex {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+form, section {
+  display: flex;
+  flex-direction: column;
+}
+
+.r-form {
+  width: 400px;
+}
